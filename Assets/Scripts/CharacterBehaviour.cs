@@ -12,7 +12,7 @@ public class CharacterBehaviour : MonoBehaviour
     public Transform PosDribble;
     public Transform Target;
 
-    private bool IsTrashInHands = true;
+    private bool IsTrashInHands = false;
     private bool IsTrashFlying = false;
     private float T = 0;
 
