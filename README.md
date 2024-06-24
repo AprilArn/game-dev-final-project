@@ -1,2 +1,8 @@
 # Tugas Akhir Unity Project
-Tugas akhir dari mata kuliah praktikum pemrograman game
+The final project of the **Game Programming practicum** course
+
+<br>
+
+References:
+- **TBA**
+- **TBA**
