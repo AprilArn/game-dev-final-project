@@ -17,7 +17,7 @@ public class CharacterBehaviour : MonoBehaviour
     private bool IsTrashFlying = false;
     private bool isOpen = false;
     private float T = 0;
-    private float doorDurationOpen = 0.6f;
+    private float doorDurationOpen = 0.65f;
     private float doorDurationClose = 0.9f;
 
     // Update is called once per frame
@@ -59,7 +59,7 @@ public class CharacterBehaviour : MonoBehaviour
             // open the door
             if ( !isOpen )
             {
-                LeanTween.rotateX( Door.gameObject, -30f, doorDurationOpen ).setEase( LeanTweenType.easeInOutQuad );
+                LeanTween.rotateX( Door.gameObject, -35f, doorDurationOpen ).setEase( LeanTweenType.easeInOutQuad );
                 isOpen = true;
             }
         }
