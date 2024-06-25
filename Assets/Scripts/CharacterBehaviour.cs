@@ -24,32 +24,32 @@ public class CharacterBehaviour : MonoBehaviour
     void Update() 
     {
         // walking
-        Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        Vector3 direction = new Vector3( Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical") );
         transform.position += direction * MoveSpeed * Time.deltaTime;
-        if(direction != Vector3.zero)
-            transform.LookAt(transform.position + direction);
+        if( direction != Vector3.zero )
+            transform.LookAt( transform.position + direction );
 
         // trash in hands
-        if (IsTrashInHands)
+        if ( IsTrashInHands )
         {
             // hold over head
-            if (Input.GetKey(KeyCode.Space))
+            if ( Input.GetKey(KeyCode.Space) )
             {
                 Trash.position = PosOverHead.position;
                 Arms.localEulerAngles = Vector3.right * 180;
 
                 // look at the target point of TrashCan
-                transform.LookAt(Target);
+                transform.LookAt( Target );
             }
             // dribbling
             else
             {
-                Trash.position = PosDribble.position + Vector3.up * Mathf.Abs(Mathf.Sin(Time.time * 5));
+                Trash.position = PosDribble.position + Vector3.up * Mathf.Abs( Mathf.Sin(Time.time * 5) );
                 Arms.localEulerAngles = Vector3.right * 0;
             }
 
             // throw trash
-            if (Input.GetKeyUp(KeyCode.Space))
+            if ( Input.GetKeyUp(KeyCode.Space) )
             {
                 IsTrashInHands = false;
                 IsTrashFlying = true;
@@ -57,15 +57,15 @@ public class CharacterBehaviour : MonoBehaviour
             }
 
             // open the door
-            if (!isOpen)
+            if ( !isOpen )
             {
-                LeanTween.rotateX(Door.gameObject, -30f, doorDurationOpen).setEase(LeanTweenType.easeInOutQuad);
+                LeanTween.rotateX( Door.gameObject, -30f, doorDurationOpen ).setEase( LeanTweenType.easeInOutQuad );
                 isOpen = true;
             }
         }
 
         // trash in the air
-        if (IsTrashFlying)
+        if ( IsTrashFlying )
         {
             T += Time.deltaTime;
             float duration = 0.5f;
@@ -73,33 +73,33 @@ public class CharacterBehaviour : MonoBehaviour
 
             Vector3 A = PosOverHead.position;
             Vector3 B = Target.position;
-            Vector3 pos = Vector3.Lerp(A, B, t01);
+            Vector3 pos = Vector3.Lerp( A, B, t01 );
 
             // move in arc
-            Vector3 arc = Vector3.up * 5 * Mathf.Sin(t01 * 3.14f);
+            Vector3 arc = Vector3.up * 5 * Mathf.Sin( t01 * 3.14f );
 
             Trash.position = pos + arc;
 
             // moment when trash arrives at the target point
-            if (t01 >= 1)
+            if ( t01 >= 1 )
             {
                 IsTrashFlying = false;
                 Trash.GetComponent<Rigidbody>().isKinematic = false;
                 Trash = null;
 
                 // close the door
-                if (isOpen)
+                if ( isOpen )
                 {
-                    LeanTween.rotateX(Door.gameObject, 0f, doorDurationClose).setEase(LeanTweenType.easeInOutQuad);
+                    LeanTween.rotateX( Door.gameObject, 0f, doorDurationClose).setEase(LeanTweenType.easeInOutQuad );
                     isOpen = false;
                 }
             }
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter( Collider other )
     {
-        if (other.CompareTag("Trash") && !IsTrashInHands && !IsTrashFlying)
+        if ( other.CompareTag("Trash") && !IsTrashInHands && !IsTrashFlying )
         {
             IsTrashInHands = true;
             Trash = other.transform;
