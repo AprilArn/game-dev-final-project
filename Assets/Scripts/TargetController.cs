@@ -5,7 +5,7 @@ using UnityEngine;
 public class TargetPointMove : MonoBehaviour
 {
 
-    public float delta = 1.5f;  // Amount to move left and right from the start point
+    public float delta = 0.95f;  // Amount to move left and right from the start point
     public float speed = 2.0f; 
     private Vector3 startPos;
 

@@ -1,4 +1,4 @@
-# Tugas Akhir Unity Project
+# Final Project - Game Programming practicum
 The final project of the **Game Programming practicum** course
 
 <br>
