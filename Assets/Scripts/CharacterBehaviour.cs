@@ -1,122 +1,11 @@
-// ----- Not Moving -----
-// using System.Collections;
-// using System.Collections.Generic;
-// using UnityEngine;
-
-// public class CharacterBehaviour : MonoBehaviour
-// {
-//     public float MoveSpeed = 10;
-
-//     public Transform Arms;
-//     public Transform PosOverHead;
-//     public Transform PosDribble;
-//     public Transform Target;
-//     public Transform Door;
-//     private Transform Trash;
-
-//     private bool IsTrashInHands = false;
-//     private bool IsTrashFlying = false;
-//     private bool isOpen = false;
-//     private float T = 0;
-//     private float doorDurationOpen = 0.65f;
-//     private float doorDurationClose = 0.9f;
-
-//     // Update is called once per frame
-//     void Update() 
-//     {
-//         // walking
-//         Vector3 direction = new Vector3( Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical") );
-//         transform.position += direction * MoveSpeed * Time.deltaTime;
-//         if( direction != Vector3.zero )
-//             transform.LookAt( transform.position + direction );
-
-//         // trash in hands
-//         if ( IsTrashInHands )
-//         {
-//             // hold over head
-//             if ( Input.GetKey(KeyCode.Space) )
-//             {
-//                 Trash.position = PosOverHead.position;
-//                 Arms.localEulerAngles = Vector3.right * 180;
-
-//                 // look at the target point of TrashCan
-//                 transform.LookAt( Target );
-//             }
-//             // dribbling
-//             else
-//             {
-//                 Trash.position = PosDribble.position + Vector3.up * Mathf.Abs( Mathf.Sin(Time.time * 5) );
-//                 Arms.localEulerAngles = Vector3.right * 0;
-//             }
-
-//             // throw trash
-//             if ( Input.GetKeyUp(KeyCode.Space) )
-//             {
-//                 IsTrashInHands = false;
-//                 IsTrashFlying = true;
-//                 T = 0;
-//             }
-
-//             // open the door
-//             if ( !isOpen )
-//             {
-//                 LeanTween.rotateX( Door.gameObject, -35f, doorDurationOpen ).setEase( LeanTweenType.easeInOutQuad );
-//                 isOpen = true;
-//             }
-//         }
-
-//         // trash in the air
-//         if ( IsTrashFlying )
-//         {
-//             T += Time.deltaTime;
-//             float duration = 0.5f;
-//             float t01 = T / duration;
-
-//             Vector3 A = PosOverHead.position;
-//             Vector3 B = Target.position;
-//             Vector3 pos = Vector3.Lerp( A, B, t01 );
-
-//             // move in arc
-//             Vector3 arc = Vector3.up * 5 * Mathf.Sin( t01 * 3.14f );
-
-//             Trash.position = pos + arc;
-
-//             // moment when trash arrives at the target point
-//             if ( t01 >= 1 )
-//             {
-//                 IsTrashFlying = false;
-//                 Trash.GetComponent<Rigidbody>().isKinematic = false;
-//                 Trash = null;
-
-//                 // close the door
-//                 if ( isOpen )
-//                 {
-//                     LeanTween.rotateX( Door.gameObject, 0f, doorDurationClose).setEase(LeanTweenType.easeInOutQuad );
-//                     isOpen = false;
-//                 }
-//             }
-//         }
-//     }
-
-//     private void OnTriggerEnter( Collider other )
-//     {
-//         if ( other.CompareTag("Trash") && !IsTrashInHands && !IsTrashFlying )
-//         {
-//             IsTrashInHands = true;
-//             Trash = other.transform;
-//             Trash.GetComponent<Rigidbody>().isKinematic = true;
-//         }
-//     }
-// }
-
-
-// ----- Moving Forward -----
+// ----- Moving Forward & Backward -----
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterBehaviour : MonoBehaviour
 {
+    
     public float MoveSpeed = 10;
 
     public Transform Arms;
@@ -124,25 +13,36 @@ public class CharacterBehaviour : MonoBehaviour
     public Transform PosDribble;
     public Transform Target;
     public Transform Door;
-    public Transform DumpTruck; // Reference to the DumpTruck object
+    public Transform DumpTruck;
     private Transform Trash;
 
     private bool IsTrashInHands = false;
     private bool IsTrashFlying = false;
     private bool isOpen = false;
+    private bool canInteractWithTrash = true; // Variable to control interaction with trash
     private float T = 0;
     private float doorDurationOpen = 0.7f;
     private float doorDurationClose = 1f;
 
     private int trashHitCount = 0; // Counter for trash hitting the target point
 
+    private Vector3 originalDumpTruckPosition;
+
+    private void Start()
+    {
+
+        originalDumpTruckPosition = DumpTruck.position; // Store the original position of the DumpTruck
+
+    }
+
     // Update is called once per frame
     void Update() 
     {
+
         // walking
         Vector3 direction = new Vector3( Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical") );
         transform.position += direction * MoveSpeed * Time.deltaTime;
-        if( direction != Vector3.zero )
+        if ( direction != Vector3.zero )
             transform.LookAt( transform.position + direction );
 
         // trash in hands
@@ -152,13 +52,11 @@ public class CharacterBehaviour : MonoBehaviour
             // hold over head
             if ( Input.GetKey(KeyCode.Space) )
             {
-
                 Trash.position = PosOverHead.position;
                 Arms.localEulerAngles = Vector3.right * 180;
 
                 // look at the target point of TrashCan
                 transform.LookAt( Target );
-
             }
 
             // dribbling
@@ -188,11 +86,13 @@ public class CharacterBehaviour : MonoBehaviour
                 isOpen = true;
 
             }
+
         }
 
         // trash in the air
         if ( IsTrashFlying )
         {
+
             T += Time.deltaTime;
             float duration = 0.5f;
             float t01 = T / duration;
@@ -217,44 +117,82 @@ public class CharacterBehaviour : MonoBehaviour
                 // Increment the counter when the trash hits the target point
                 trashHitCount++;
 
-                // Check if trash has hit the target point 10 times
+                // Check if trash has hit the target point 5 times
                 if ( trashHitCount >= 5 )
                 {
 
-                    MoveDumpTruck();
                     trashHitCount = 0; // Reset the counter
+                    canInteractWithTrash = false; // Prevent interaction with trash
+
+                    // close the door
+                    if ( isOpen )
+                    {
+
+                        LeanTween.rotateX( Door.gameObject, 0f, doorDurationClose ).setEase( LeanTweenType.easeInOutQuad ).setOnComplete(() =>
+                        {
+
+                            MoveDumpTruck();
+
+                        });
+                        isOpen = false;
+
+                    }
 
                 }
 
-                // close the door
-                if ( isOpen )
+                else
                 {
 
-                    LeanTween.rotateX( Door.gameObject, 0f, doorDurationClose).setEase(LeanTweenType.easeInOutQuad );
-                    isOpen = false;
+                    // close the door if it's not yet closed and trashHitCount < 5
+                    if ( isOpen )
+                    {
+
+                        LeanTween.rotateX( Door.gameObject, 0f, doorDurationClose ).setEase( LeanTweenType.easeInOutQuad );
+                        isOpen = false;
+
+                    }
 
                 }
 
             }
+
         }
+
     }
 
     private void OnTriggerEnter( Collider other )
     {
-        if ( other.CompareTag("Trash") && !IsTrashInHands && !IsTrashFlying )
+
+        if ( other.CompareTag("Trash") && !IsTrashInHands && !IsTrashFlying && canInteractWithTrash )
         {
+
             IsTrashInHands = true;
             Trash = other.transform;
             Trash.GetComponent<Rigidbody>().isKinematic = true;
+
         }
+
     }
 
-    // Method to move the DumpTruck forward
+    // Method to move the DumpTruck forward and then back
     private void MoveDumpTruck()
     {
+
         Vector3 targetPosition = DumpTruck.position + Vector3.forward * 4;
-        LeanTween.move( DumpTruck.gameObject, targetPosition, 2f ).setEase( LeanTweenType.easeInOutQuad );
+        LeanTween.move( DumpTruck.gameObject, targetPosition, 2f ).setEase( LeanTweenType.easeInOutQuad ).setOnComplete(() =>
+        {
+
+            LeanTween.move( DumpTruck.gameObject, originalDumpTruckPosition, 2f ).setEase( LeanTweenType.easeInOutQuad ).setOnComplete(() =>
+            {
+
+                canInteractWithTrash = true; // Allow interaction with trash once the truck is back
+
+            });
+
+        });
+
     }
+
 }
 
 
