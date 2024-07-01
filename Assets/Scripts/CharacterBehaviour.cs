@@ -177,7 +177,7 @@ public class CharacterBehaviour : MonoBehaviour
     {
 
         Vector3 targetPosition = DumpTruck.position + Vector3.forward * 15;
-        LeanTween.move( DumpTruck.gameObject, targetPosition, 4f ).setEase( LeanTweenType.easeInOutQuad ).setOnComplete(() =>
+        LeanTween.move( DumpTruck.gameObject, targetPosition, 4.5f ).setEase( LeanTweenType.easeInOutQuad ).setOnComplete(() =>
         {
 
             // Destroy trash after dump truck moves forward
@@ -189,7 +189,7 @@ public class CharacterBehaviour : MonoBehaviour
             }
             TrashList.Clear();
 
-            LeanTween.move( DumpTruck.gameObject, originalDumpTruckPosition, 4f ).setEase( LeanTweenType.easeInOutQuad ).setOnComplete(() =>
+            LeanTween.move( DumpTruck.gameObject, originalDumpTruckPosition, 3.5f ).setEase( LeanTweenType.easeInOutQuad ).setOnComplete(() =>
             {
 
                 canInteractWithTrash = true; // Allow interaction with trash once the truck is back
