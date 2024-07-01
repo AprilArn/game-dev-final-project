@@ -22,8 +22,9 @@ public class TargetPointMove : MonoBehaviour
     {
 
         Vector3 v = startPos;
-        v.x += delta * Mathf.Sin (Time.time * speed);
+        v.x += delta * Mathf.Sin( Time.time * speed );
         transform.position = v;
 
     }
+    
 }
