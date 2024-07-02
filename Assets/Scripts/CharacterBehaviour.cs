@@ -175,19 +175,18 @@ public class CharacterBehaviour : MonoBehaviour
     // Method to move the DumpTruck forward and then back
     private void MoveDumpTruck()
     {
-
-        Vector3 targetPosition = DumpTruck.position + Vector3.forward * 15;
-        LeanTween.move( DumpTruck.gameObject, targetPosition, 4.5f ).setEase( LeanTweenType.easeInOutQuad ).setOnComplete(() =>
+        // Destroy trash before dump truck moves forward
+        foreach ( Transform trash in TrashList )
         {
 
-            // Destroy trash after dump truck moves forward
-            foreach ( Transform trash in TrashList )
-            {
+            Destroy(trash.gameObject);
 
-                Destroy(trash.gameObject);
+        }
+        TrashList.Clear();
 
-            }
-            TrashList.Clear();
+        Vector3 targetPosition = DumpTruck.position + Vector3.forward * 15;
+        LeanTween.move( DumpTruck.gameObject, targetPosition, 4f ).setEase( LeanTweenType.easeInOutQuad ).setOnComplete(() =>
+        {
 
             LeanTween.move( DumpTruck.gameObject, originalDumpTruckPosition, 3.5f ).setEase( LeanTweenType.easeInOutQuad ).setOnComplete(() =>
             {
