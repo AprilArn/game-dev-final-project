@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Main Menu.unity
+    guid: cc03a7f6b836bf8429ba5f6e5c8ed74e
+  - enabled: 1
+    path: Assets/Scenes/TrashMan.unity
+    guid: 30de09f14f6ad934382a96f9369ad7a0
   m_configObjects: {}
