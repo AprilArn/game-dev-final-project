@@ -11,4 +11,3 @@ References:
 - [Bush](https://assetstore.unity.com/packages/3d/vegetation/plants/yughues-free-bushes-13168)
 - [Street Lamp & SkyBox](https://assetstore.unity.com/packages/3d/environments/urban/demo-city-by-versatile-studio-mobile-friendly-269772)
 - [City Building](https://assetstore.unity.com/packages/3d/environments/simplepoly-city-low-poly-assets-58899)
-- [Restart Button](https://youtu.be/TVSLCZWYL_E?si=bwaqLzXyXC7KQBTu)

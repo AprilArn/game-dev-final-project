@@ -156,7 +156,7 @@ public class CharacterBehaviour : MonoBehaviour
             }
 
         }
-
+        
     }
 
     private void OnTriggerEnter( Collider other )
