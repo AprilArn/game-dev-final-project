@@ -184,8 +184,8 @@ public class CharacterBehaviour : MonoBehaviour
         }
         TrashList.Clear();
 
-        Vector3 targetPosition = DumpTruck.position + Vector3.forward * 15;
-        LeanTween.move( DumpTruck.gameObject, targetPosition, 4f ).setEase( LeanTweenType.easeInOutQuad ).setOnComplete(() =>
+        Vector3 targetPosition = DumpTruck.position + Vector3.forward * 16;
+        LeanTween.move( DumpTruck.gameObject, targetPosition, 3.5f ).setEase( LeanTweenType.easeInOutQuad ).setOnComplete(() =>
         {
 
             LeanTween.move( DumpTruck.gameObject, originalDumpTruckPosition, 3.5f ).setEase( LeanTweenType.easeInOutQuad ).setOnComplete(() =>
