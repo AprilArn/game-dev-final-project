@@ -11,3 +11,6 @@ References:
 - [Bush](https://assetstore.unity.com/packages/3d/vegetation/plants/yughues-free-bushes-13168)
 - [Street Lamp & SkyBox](https://assetstore.unity.com/packages/3d/environments/urban/demo-city-by-versatile-studio-mobile-friendly-269772)
 - [City Building](https://assetstore.unity.com/packages/3d/environments/simplepoly-city-low-poly-assets-58899)
+- [Minecraft Click Button](https://www.myinstants.com/en/instant/minecraft-click/)
+- [Wuthering Waves Intro BGM](https://youtu.be/SlQcpV93qkk?si=uFzzPEtbeJIZTqXL)
+- [Honkai: Star Rail - Sparkle: Behind the Curtain](https://youtu.be/wkFtTUVda4U?si=3skZ0xmQxaR8bIRI)

@@ -18,7 +18,7 @@ public class RandomSpawner : MonoBehaviour
     void SpawnCube()
     {
 
-        Vector3 randomSpawnPosition = new Vector3(Random.Range(-10, 11), 20, Random.Range(-10, 11));
+        Vector3 randomSpawnPosition = new Vector3(Random.Range(-10, 11), 25, Random.Range(-10, 11));
         Instantiate(cubePrefab, randomSpawnPosition, Quaternion.identity);
 
     }
