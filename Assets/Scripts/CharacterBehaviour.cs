@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro; // Import TextMeshPro
 
 public class CharacterBehaviour : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class CharacterBehaviour : MonoBehaviour
     public Transform Target;
     public Transform Door;
     public Transform DumpTruck;
+    public TextMeshProUGUI TrashCounterText; // Reference to TextMeshProUGUI
+
     private List<Transform> TrashList = new List<Transform>();
 
     private bool IsTrashInHands = false;
@@ -30,11 +33,12 @@ public class CharacterBehaviour : MonoBehaviour
     {
 
         originalDumpTruckPosition = DumpTruck.position; // Store the original position of the DumpTruck
+        UpdateTrashCounter(); // Initialize the TrashCounter text
 
     }
 
     // Update is called once per frame
-    void Update() 
+    void Update()
     {
 
         // walking
@@ -65,7 +69,7 @@ public class CharacterBehaviour : MonoBehaviour
 
                 TrashList[ TrashList.Count - 1 ].position = PosDribble.position + Vector3.up * Mathf.Abs( Mathf.Sin(Time.time * 5) );
                 Arms.localEulerAngles = Vector3.right * 0;
-
+                
             }
 
             // throw trash
@@ -115,12 +119,12 @@ public class CharacterBehaviour : MonoBehaviour
 
                 // Increment the counter when the trash hits the target point
                 trashHitCount++;
+                UpdateTrashCounter(); // Update the TrashCounter text
 
                 // Check if trash has hit the target point 5 times
                 if ( trashHitCount >= 5 )
                 {
 
-                    trashHitCount = 0; // Reset the counter
                     canInteractWithTrash = false; // Prevent interaction with trash
 
                     // close the door
@@ -156,11 +160,12 @@ public class CharacterBehaviour : MonoBehaviour
             }
 
         }
-        
+
     }
 
     private void OnTriggerEnter( Collider other )
     {
+
         if ( other.CompareTag("Trash") && !IsTrashInHands && !IsTrashFlying && canInteractWithTrash )
         {
 
@@ -175,11 +180,12 @@ public class CharacterBehaviour : MonoBehaviour
     // Method to move the DumpTruck forward and then back
     private void MoveDumpTruck()
     {
+
         // Destroy trash before dump truck moves forward
         foreach ( Transform trash in TrashList )
         {
 
-            Destroy(trash.gameObject);
+            Destroy( trash.gameObject );
 
         }
         TrashList.Clear();
@@ -188,6 +194,8 @@ public class CharacterBehaviour : MonoBehaviour
         LeanTween.move( DumpTruck.gameObject, targetPosition, 3.5f ).setEase( LeanTweenType.easeInOutQuad ).setOnComplete(() =>
         {
 
+            trashHitCount = 0; // Reset the counter
+            UpdateTrashCounter(); // Update the TrashCounter text
             LeanTween.move( DumpTruck.gameObject, originalDumpTruckPosition, 3.5f ).setEase( LeanTweenType.easeInOutQuad ).setOnComplete(() =>
             {
 
@@ -196,6 +204,14 @@ public class CharacterBehaviour : MonoBehaviour
             });
 
         });
+
+    }
+
+    // Method to update the TrashCounter text
+    private void UpdateTrashCounter()
+    {
+
+        TrashCounterText.text = "Trash Counter: " + trashHitCount;
 
     }
 
