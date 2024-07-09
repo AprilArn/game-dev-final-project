@@ -26,6 +26,5 @@ public class UIController : MonoBehaviour
         print("Restart button is clicked...");
 
     }
-    
 
 }

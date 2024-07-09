@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    
     public Transform target; // Target yang akan diikuti oleh kamera
     public float smoothSpeed; // Kecepatan kamera mengarahkan pandangannya
 
