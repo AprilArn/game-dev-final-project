@@ -11,16 +11,35 @@ public class PlayButton : MonoBehaviour
     {
         
         clickSound.Play();
-        StartCoroutine( delaySound() );
+        StartCoroutine( delaySoundOnPlay() );
         print("The play button has been pressed, loading Game Field scene...");
 
     }
 
-    IEnumerator delaySound()
+    public void exitButton()
+    {
+        
+        clickSound.Play();
+        StartCoroutine( delaySoundOnExit() );
+        print("The exit button has been pressed, exiting Game...");
+
+    }
+
+    IEnumerator delaySoundOnPlay()
     {
 
         yield return new WaitForSeconds( 1.5f );
         SceneManager.LoadScene( 1 );
+        Debug.Log("Game Played!");
+
+    }
+
+    IEnumerator delaySoundOnExit()
+    {
+
+        yield return new WaitForSeconds( 1.5f );
+        Application.Quit();
+        Debug.Log("Game Exit!");
 
     }
 
